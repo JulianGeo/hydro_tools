@@ -11,11 +11,22 @@ import re, os
 
 from funciones import *
 from variables import *
+from setup.config import *
+
 
 iones = {
 'HCO3': 61, 'CO3' : 30, 'Cl' : 35, 'SO4': 48,
 'Na' : 23, 'Ca' : 20, 'Mg' : 12, 'K'  : 39
 }
+
+
+
+if 'x_range' not in globals() or not isinstance(x_range, (int, float)) or x_range <= 0:
+    raise ValueError("x_range config must be a positive number")
+
+total_x_range = x_range * 2
+
+
 
 datosQuimica = pd.read_excel("Analisis_AFQ.xlsx")
 
@@ -30,23 +41,30 @@ datosQuimica['Estacion'] = datosQuimica['Estacion'].str.replace("–","-")
 datosQuimica['Estacion'] = datosQuimica['Estacion'].str.replace(" |%/s","")
 datosQuimica = datosQuimica.set_index(['Estacion'])
 
+
 for ion in iones.keys():
     datosQuimica[str(ion)+'_meq'] = datosQuimica[ion]/iones[ion]
 
+#Guarda archivo para QC
+datosQuimica.to_csv('./Txt/Analisis_AFQ.csv')
 
 for index, row in datosQuimica.iterrows():
     Na_K, Ca, Mg = row['Na_meq']+row['K_meq'], row['Ca_meq'], row['Mg_meq'] 
     Cl, HCO3_CO3, SO4 = row['Cl_meq'], row['HCO3_meq']+row['CO3_meq'], row['SO4_meq']
+
     #apply some factor for the axis
-    maxConNorm = 494 #max([Na_K, Ca, Mg, Cl, HCO3_CO3, SO4])*2 # Escala en el eje X  50 #
+    if not fixed_range:
+        total_x_range = max([Na_K, Ca, Mg, Cl, HCO3_CO3, SO4])*2
+    #x_range = 494 #max([Na_K, Ca, Mg, Cl, HCO3_CO3, SO4])*2 # Escala en el eje X  50 #
     #set of points of the Stiff diagram
-    a = np.array([[0.5 + Cl/maxConNorm,1],[0.5 + HCO3_CO3/maxConNorm,.5],[0.5 + SO4/maxConNorm,0],
-                  [0.5 - Mg/maxConNorm,0],[0.5 - Ca/maxConNorm,.5],[0.5 - Na_K/maxConNorm,1]])
+    a = np.array([[0.5 + Cl/total_x_range,1],[0.5 + HCO3_CO3/total_x_range,.5],[0.5 + SO4/total_x_range,0],
+                  [0.5 - Mg/total_x_range,0],[0.5 - Ca/total_x_range,.5],[0.5 - Na_K/total_x_range,1]])
     
 
-    figura = diagramaStiff(a, maxConNorm, index)
+    figura = diagramaStiff(a, total_x_range, index)
     figura.savefig('./Svg/'+str(index)+'.svg')
     figura.savefig('./Png/'+str(index)+'.png',dpi=100)
+    row['stiff_path'] = './Svg/'+str(index)+'.svg'
     #figura.savefig('./Pdf/'+str(index)+'.pdf')
     
 ####### En esta parte se genera el archivo de puntos con coordenadas ########

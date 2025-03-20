@@ -13,11 +13,11 @@ This directory contains Python scripts for the `Hydro tools` project. These scri
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/yourusername/codigo_chiky.git
+    git clone [https://github.com/JulianGeo/hydro_tools.git](https://github.com/JulianGeo/hydro_tools.git)
     ```
 2. Navigate to the project directory:
     ```sh
-    cd codigo_chiky/scripts
+    cd hydro_tools/scripts
     ```
 3. Install the required packages:
     ```sh
@@ -34,3 +34,5 @@ Replace `script_name.py` with the name of the script you want to execute.
 
 
 ## Backlog
+- Agregar un archivo de parámetros, excel(?)
+    - Parametrizar limites de los stiffs
