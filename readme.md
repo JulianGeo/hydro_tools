@@ -36,3 +36,4 @@ Replace `script_name.py` with the name of the script you want to execute.
 ## Backlog
 - Agregar un archivo de parámetros, excel(?)
     - Parametrizar limites de los stiffs
+    - Separar en carpetas el código de los resultados

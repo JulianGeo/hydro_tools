@@ -178,5 +178,8 @@ pyrightconfig.json
 /Txt/
 /Svg/
 /Png/
+/Shapefiles/
 /myenv
+/myEnv2
 Analisis_AFQ.xlsx
+*.xlsx

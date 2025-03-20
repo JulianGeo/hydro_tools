@@ -11,7 +11,7 @@ def install_requirements():
 
 install_requirements()
 
-folders = ['Png', 'Svg', 'Txt']
+folders = ['Png', 'Svg', 'Txt', 'Shapefiles']
 
 def create_folders(folders):
     for folder in folders:

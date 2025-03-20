@@ -12,13 +12,13 @@ import re, os
 from funciones import *
 from variables import *
 from setup.config import *
+from crear_shp import *
 
 
 iones = {
 'HCO3': 61, 'CO3' : 30, 'Cl' : 35, 'SO4': 48,
 'Na' : 23, 'Ca' : 20, 'Mg' : 12, 'K'  : 39
 }
-
 
 
 if 'x_range' not in globals() or not isinstance(x_range, (int, float)) or x_range <= 0:
@@ -45,8 +45,6 @@ datosQuimica = datosQuimica.set_index(['Estacion'])
 for ion in iones.keys():
     datosQuimica[str(ion)+'_meq'] = datosQuimica[ion]/iones[ion]
 
-#Guarda archivo para QC
-datosQuimica.to_csv('./Txt/Analisis_AFQ.csv')
 
 for index, row in datosQuimica.iterrows():
     Na_K, Ca, Mg = row['Na_meq']+row['K_meq'], row['Ca_meq'], row['Mg_meq'] 
@@ -64,8 +62,11 @@ for index, row in datosQuimica.iterrows():
     figura = diagramaStiff(a, total_x_range, index)
     figura.savefig('./Svg/'+str(index)+'.svg')
     figura.savefig('./Png/'+str(index)+'.png',dpi=100)
-    row['stiff_path'] = './Svg/'+str(index)+'.svg'
+    datosQuimica.loc[index, 'stiff_path'] = os.path.abspath('./Svg/'+str(index)+'.svg')
     #figura.savefig('./Pdf/'+str(index)+'.pdf')
+
+#Guarda archivo para QC
+datosQuimica.to_csv('./Txt/Analisis_AFQ.csv')
     
 ####### En esta parte se genera el archivo de puntos con coordenadas ########
 ####### y el archivo de estilo para los puntos, después se cargan en QGIS ###
@@ -92,3 +93,27 @@ for index, row in datosQuimica.iterrows():
 archivoestilos.write(final)
 
 archivoestilos.close()
+
+
+## Shapefile creation
+shape_properties = []
+for index, row in datosQuimica.iterrows():
+    shape_properties.append({
+        "Estacion": index,
+        "HCO3": row['HCO3'],
+        "CO3": row['CO3'],
+        "SO4": row['SO4'],
+        "Cl": row['Cl'],
+        "Na": row['Na'],
+        "K": row['K'],
+        "Ca": row['Ca'],
+        "Mg": row['Mg'],
+        "Stiff_path": row['stiff_path']
+    })
+
+create_shape(
+    datosQuimica, 
+    schema_stiff, 
+    shape_config, 
+    shape_properties
+    )
