@@ -28,7 +28,7 @@ total_x_range = x_range * 2
 
 
 
-datosQuimica = pd.read_excel("Analisis_AFQ.xlsx")
+datosQuimica = pd.read_excel(chem_data_path)
 
 print(datosQuimica.info())
 
@@ -58,32 +58,30 @@ for index, row in datosQuimica.iterrows():
     a = np.array([[0.5 + Cl/total_x_range,1],[0.5 + HCO3_CO3/total_x_range,.5],[0.5 + SO4/total_x_range,0],
                   [0.5 - Mg/total_x_range,0],[0.5 - Ca/total_x_range,.5],[0.5 - Na_K/total_x_range,1]])
     
-
     figura = diagramaStiff(a, total_x_range, index)
-    figura.savefig('./Svg/'+str(index)+'.svg')
-    figura.savefig('./Png/'+str(index)+'.png',dpi=100)
-    datosQuimica.loc[index, 'stiff_path'] = os.path.abspath('./Svg/'+str(index)+'.svg')
+    figura.savefig('../results/Svg/'+str(index)+'.svg')
+    figura.savefig('../results/Png/'+str(index)+'.png',dpi=100)
+    datosQuimica.loc[index, 'stiff_path'] = os.path.abspath('../results/Svg/'+str(index)+'.svg')
     #figura.savefig('./Pdf/'+str(index)+'.pdf')
 
 #Guarda archivo para QC
-datosQuimica.to_csv('./Txt/Analisis_AFQ.csv')
-    
+datosQuimica.to_csv('../results/Txt/Analisis_AFQ.csv')
+
 ####### En esta parte se genera el archivo de puntos con coordenadas ########
 ####### y el archivo de estilo para los puntos, después se cargan en QGIS ###
 
 #observation point spatial file
 datosQuimicaGeo = datosQuimica.loc[:,'Este':'Norte']
-datosQuimicaGeo.to_csv('./Txt/Analisis_AFQ_FINAL.csv')
+datosQuimicaGeo.to_csv('../results/Txt/Analisis_AFQ_FINAL.csv')
 
 #path to the Svg folder
-imagePath = os.path.join(os.path.dirname(os.getcwd()),'Svg')
+imagePath = os.path.join('../results/Svg')
 imagePath = imagePath.replace('\\','/')
-imagePath
 
 #'/Users/TIP/Documents/ValleMedioMagdalena/2021/Python/Svg'
 
 #style file generation
-archivoestilos = open('./Txt/estilosAnalisis_AFQ_FINAL','w')
+archivoestilos = open('../results/Txt/estilosAnalisis_AFQ_FINAL','w')
 archivoestilos.write(encabezado)
 
 for index, row in datosQuimica.iterrows():

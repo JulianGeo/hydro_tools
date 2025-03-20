@@ -1,17 +1,14 @@
 import os
 import subprocess
 
-def install_requirements():
-    requirements_file = 'requirements.txt'
-    if os.path.exists(requirements_file):
-        subprocess.check_call(['pip', 'install', '-r', requirements_file])
-        print(f"Installed packages from {requirements_file}.")
+def install_requirements(requirements_path):
+    if os.path.exists(requirements_path):
+        subprocess.check_call(['pip', 'install', '-r', requirements_path])
+        print(f"Installed packages from {requirements_path}.")
     else:
-        print(f"No {requirements_file} found.")
+        print(f"No {requirements_path} found.")
 
-install_requirements()
 
-folders = ['Png', 'Svg', 'Txt', 'Shapefiles']
 
 def create_folders(folders):
     for folder in folders:
@@ -21,4 +18,16 @@ def create_folders(folders):
         else:
             print(f"Folder '{folder}' already exists.")
 
-create_folders()
+
+
+folders = [
+    '../results/Png', 
+    '../results/Svg',
+    '../results/Txt', 
+    '../results/Shapefiles',
+    '../input'
+    ]
+requirements_path = './setup/requirements.txt'
+
+install_requirements(requirements_path)
+create_folders(folders)
