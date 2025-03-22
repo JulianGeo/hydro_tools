@@ -20,9 +20,12 @@ iones = {
 'Na' : 23, 'Ca' : 20, 'Mg' : 12, 'K'  : 39
 }
 
-
-if 'x_range' not in globals() or not isinstance(x_range, (int, float)) or x_range <= 0:
-    raise ValueError("x_range config must be a positive number")
+if 'fixed_range' not in globals() or not isinstance(fixed_range, bool):
+    raise ValueError("fixed_range config must be a boolean")
+ 
+if fixed_range:
+    if 'x_range' not in globals() or not isinstance(x_range, (int, float)) or x_range <= 0:
+        raise ValueError("x_range config must be a positive number")
 
 total_x_range = x_range * 2
 
@@ -64,11 +67,16 @@ for index, row in datosQuimica.iterrows():
         [0.5 - Na_K/total_x_range,1]
         ])
     
-    figura = diagramaStiff(a, total_x_range, index)
-    figura.savefig('../results/Svg/'+str(index)+'.svg')
-    figura.savefig('../results/Png/'+str(index)+'.png',dpi=100)
+    figura_labels = diagramaStiff(a, total_x_range, index, True)
+    figura_labels.savefig('../results/Svg/'+str(index)+'.svg')
+    figura_labels.savefig('../results/Png/'+str(index)+'.png',dpi=100)
     datosQuimica.loc[index, 'stiff_path'] = os.path.abspath('../results/Svg/'+str(index)+'.svg')
     #figura.savefig('./Pdf/'+str(index)+'.pdf')
+
+    figura_no_labels = diagramaStiff(a, total_x_range, index, False)
+    figura_no_labels.savefig('../results/Svg/'+str(index)+'_poligono.svg')
+    figura_no_labels.savefig('../results/Png/'+str(index)+'_poligono.png',dpi=100)
+    datosQuimica.loc[index, 'stiff_path'] = os.path.abspath('../results/Svg/'+str(index)+'_poligono.svg')
 
 #Guarda archivo para QC
 datosQuimica.to_csv('../results/Txt/Analisis_AFQ.csv')
