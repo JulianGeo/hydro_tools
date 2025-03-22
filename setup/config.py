@@ -18,8 +18,11 @@ chem_data_path = "../input/Analisis_AFQ.xlsx"
 fixed_range = True
 x_range = 10
 
-
-
+#Plot style
+facecolor = '#fff419'  # HEX-> '#FF0000'
+edgecolor = 'black'
+alpha = 1 #Transparencia 0-1
+linewidths = 5
 
 
 

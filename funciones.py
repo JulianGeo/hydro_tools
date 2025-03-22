@@ -1,9 +1,12 @@
+from setup.config import *
+
 def diagramaStiff(a, maxConNorm, index):
     import numpy as np
     import matplotlib.pyplot as plt
     import matplotlib
     from matplotlib.patches import Polygon
     from matplotlib.collections import PatchCollection
+
 
     
     fig, ax = plt.subplots(figsize=(26,13))  # figsize=(14,7)# Modifiqué el tamaño de salida de la figura
@@ -12,10 +15,13 @@ def diagramaStiff(a, maxConNorm, index):
     polygon = Polygon(a, closed= True) 
     patches.append(polygon)
 
-    p = PatchCollection(patches, cmap=matplotlib.cm.jet, alpha=0.5 ) #  False, facecolor='blue',edgecolor='black',linewidth=10
-
-    colors = 100*np.random.rand(len(patches))
-    p.set_array(np.array(colors))
+    p = PatchCollection(
+        patches, 
+        facecolor=facecolor, 
+        edgecolor=edgecolor, 
+        alpha=alpha,
+        linewidths=linewidths,
+    )
 
     ax.add_collection(p)
 

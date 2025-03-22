@@ -55,8 +55,14 @@ for index, row in datosQuimica.iterrows():
         total_x_range = max([Na_K, Ca, Mg, Cl, HCO3_CO3, SO4])*2
     #x_range = 494 #max([Na_K, Ca, Mg, Cl, HCO3_CO3, SO4])*2 # Escala en el eje X  50 #
     #set of points of the Stiff diagram
-    a = np.array([[0.5 + Cl/total_x_range,1],[0.5 + HCO3_CO3/total_x_range,.5],[0.5 + SO4/total_x_range,0],
-                  [0.5 - Mg/total_x_range,0],[0.5 - Ca/total_x_range,.5],[0.5 - Na_K/total_x_range,1]])
+    a = np.array([
+        [0.5 + Cl/total_x_range,1],
+        [0.5 + HCO3_CO3/total_x_range,.5],
+        [0.5 + SO4/total_x_range,0],
+        [0.5 - Mg/total_x_range,0],
+        [0.5 - Ca/total_x_range,.5],
+        [0.5 - Na_K/total_x_range,1]
+        ])
     
     figura = diagramaStiff(a, total_x_range, index)
     figura.savefig('../results/Svg/'+str(index)+'.svg')
