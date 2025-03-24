@@ -43,7 +43,8 @@ schema_stiff = {
         ("K","float"),
         ("Ca","float"),
         ("Mg","float"),
-        ("Stiff_path","str")
+        ("Stiff_path","str"),
+        ("Stiff_pol_path","str")
         ]
 }
 

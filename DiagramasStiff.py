@@ -76,7 +76,7 @@ for index, row in datosQuimica.iterrows():
     figura_no_labels = diagramaStiff(a, total_x_range, index, False)
     figura_no_labels.savefig('../results/Svg/'+str(index)+'_poligono.svg')
     figura_no_labels.savefig('../results/Png/'+str(index)+'_poligono.png',dpi=100)
-    datosQuimica.loc[index, 'stiff_path'] = os.path.abspath('../results/Svg/'+str(index)+'_poligono.svg')
+    datosQuimica.loc[index, 'Stiff_pol_path'] = os.path.abspath('../results/Svg/'+str(index)+'_poligono.svg')
 
 #Guarda archivo para QC
 datosQuimica.to_csv('../results/Txt/Analisis_AFQ.csv')
@@ -95,7 +95,7 @@ imagePath = imagePath.replace('\\','/')
 #'/Users/TIP/Documents/ValleMedioMagdalena/2021/Python/Svg'
 
 #style file generation
-archivoestilos = open('../results/Txt/estilosAnalisis_AFQ_FINAL','w')
+archivoestilos = open('../results/Txt/estilosAnalisis_AFQ_FINAL.sld','w')
 archivoestilos.write(encabezado)
 
 for index, row in datosQuimica.iterrows():
@@ -120,7 +120,8 @@ for index, row in datosQuimica.iterrows():
         "K": row['K'],
         "Ca": row['Ca'],
         "Mg": row['Mg'],
-        "Stiff_path": row['stiff_path']
+        "Stiff_path": row['stiff_path'],
+        "Stiff_pol_path": row['Stiff_pol_path']
     })
 
 create_shape(

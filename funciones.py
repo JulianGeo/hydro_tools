@@ -54,6 +54,10 @@ def diagramaStiff(a, maxConNorm, index, has_labels=True):
     else:
         # Remove axes if has_labels is False
         ax.axis('off')
+        
+        # Remove white background
+        fig.patch.set_visible(False)
+        ax.patch.set_visible(False)
     
     plt.close()
     

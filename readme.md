@@ -35,7 +35,8 @@ Replace `script_name.py` with the name of the script you want to execute.
 
 ## Backlog
 - Generar solo el polígono, revisar integración con Arcgis
-- Modificar colores de polígonos, bordes
+    - Corregir desbordamiento: si se desborda, ajustar el número al máximo valor posible
+    - Ver opciones con paths relativos, o solución al compartir imagenes & shp a otro pc
 - Ojear el shape de poligono
 
 
