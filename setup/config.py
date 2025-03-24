@@ -15,8 +15,8 @@ chem_data_path: str
     Ruta del archivo de datos químicos.
 """
 chem_data_path = "../input/Analisis_AFQ.xlsx"
-fixed_range = False
-x_range = 10
+fixed_range = True
+x_range = 25
 
 #Plot style
 facecolor = '#fff419'  # HEX-> '#FF0000'

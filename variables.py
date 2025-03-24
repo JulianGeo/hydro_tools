@@ -35,3 +35,15 @@ item = '''
           </se:PointSymbolizer>
         </se:Rule>
 '''
+
+# Molecular weights of cations and anions
+iones = {
+'HCO3': 61, 
+'CO3' : 30, 
+'Cl' : 35, 
+'SO4': 48,
+'Na' : 23, 
+'Ca' : 20, 
+'Mg' : 12, 
+'K'  : 39
+}

@@ -15,11 +15,6 @@ from setup.config import *
 from crear_shp import *
 
 
-iones = {
-'HCO3': 61, 'CO3' : 30, 'Cl' : 35, 'SO4': 48,
-'Na' : 23, 'Ca' : 20, 'Mg' : 12, 'K'  : 39
-}
-
 if 'fixed_range' not in globals() or not isinstance(fixed_range, bool):
     raise ValueError("fixed_range config must be a boolean")
  
@@ -29,14 +24,10 @@ if fixed_range:
 
 total_x_range = x_range * 2
 
-
-
 datosQuimica = pd.read_excel(chem_data_path)
 
 print(datosQuimica.info())
-
 print(datosQuimica.shape)
-
 
 
 datosQuimica['Estacion'] = datosQuimica['Estacion'].str.replace("/","_")
@@ -56,15 +47,16 @@ for index, row in datosQuimica.iterrows():
     #apply some factor for the axis
     if not fixed_range:
         total_x_range = max([Na_K, Ca, Mg, Cl, HCO3_CO3, SO4])*2
-    #x_range = 494 #max([Na_K, Ca, Mg, Cl, HCO3_CO3, SO4])*2 # Escala en el eje X  50 #
+
     #set of points of the Stiff diagram
+    #refactor this to a function
     a = np.array([
-        [0.5 + Cl/total_x_range,1],
-        [0.5 + HCO3_CO3/total_x_range,.5],
-        [0.5 + SO4/total_x_range,0],
-        [0.5 - Mg/total_x_range,0],
-        [0.5 - Ca/total_x_range,.5],
-        [0.5 - Na_K/total_x_range,1]
+        [0.5 + min(Cl/total_x_range, 0.5), 1],
+        [0.5 + min(HCO3_CO3/total_x_range, 0.5), .5],
+        [0.5 + min(SO4/total_x_range, 0.5), 0],
+        [0.5 - min(Mg/total_x_range, 0.5), 0],
+        [0.5 - min(Ca/total_x_range, 0.5), .5],
+        [0.5 - min(Na_K/total_x_range, 0.5), 1]
         ])
     
     figura_labels = diagramaStiff(a, total_x_range, index, True)

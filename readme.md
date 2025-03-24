@@ -33,10 +33,11 @@ python script_name.py
 Replace `script_name.py` with the name of the script you want to execute.
 
 
+## QGIS integration
+Once the images are generated, the results folder should be copied to the QGIS project root directory. The SVG or PNG files can then be linked to the shapefile representation using their relative paths.
+
 ## Backlog
-- Generar solo el polígono, revisar integración con Arcgis
-    - Corregir desbordamiento: si se desborda, ajustar el número al máximo valor posible
-    - Ver opciones con paths relativos, o solución al compartir imagenes & shp a otro pc
+- Revisar integración con Arcgis
 - Ojear el shape de poligono
 
 
