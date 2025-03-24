@@ -70,13 +70,13 @@ for index, row in datosQuimica.iterrows():
     figura_labels = diagramaStiff(a, total_x_range, index, True)
     figura_labels.savefig('../results/Svg/'+str(index)+'.svg')
     figura_labels.savefig('../results/Png/'+str(index)+'.png',dpi=100)
-    datosQuimica.loc[index, 'stiff_path'] = os.path.abspath('../results/Svg/'+str(index)+'.svg')
+    datosQuimica.loc[index, 'stiff_path'] = '/results/Svg/'+str(index)+'.svg'
     #figura.savefig('./Pdf/'+str(index)+'.pdf')
 
     figura_no_labels = diagramaStiff(a, total_x_range, index, False)
     figura_no_labels.savefig('../results/Svg/'+str(index)+'_poligono.svg')
     figura_no_labels.savefig('../results/Png/'+str(index)+'_poligono.png',dpi=100)
-    datosQuimica.loc[index, 'Stiff_pol_path'] = os.path.abspath('../results/Svg/'+str(index)+'_poligono.svg')
+    datosQuimica.loc[index, 'Stiff_pol_path'] = '/results/Svg/'+str(index)+'_poligono.svg'
 
 #Guarda archivo para QC
 datosQuimica.to_csv('../results/Txt/Analisis_AFQ.csv')
