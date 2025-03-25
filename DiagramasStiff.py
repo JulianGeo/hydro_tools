@@ -46,6 +46,7 @@ for index, row in datosQuimica.iterrows():
 
     #apply some factor for the axis
     if not fixed_range:
+        #Incluir auto-escala
         total_x_range = max([Na_K, Ca, Mg, Cl, HCO3_CO3, SO4])*2
 
     #set of points of the Stiff diagram
