@@ -39,6 +39,7 @@ Once the images are generated, the results folder should be copied to the QGIS p
 ## Backlog
 - Revisar integración con Arcgis
 - Ojear el shape de poligono
+- Implementar Autoescala
 
 
 

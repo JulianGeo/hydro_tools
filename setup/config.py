@@ -14,7 +14,7 @@ x_range: int
 chem_data_path: str
     Ruta del archivo de datos químicos.
 """
-chem_data_path = "../input/Analisis_AFQ.xlsx"
+chem_data_path = "../input/Analisis_AFQ_Garzas-12_2024.xls"
 fixed_range = True
 x_range = 25
 
