@@ -1,9 +1,6 @@
 """
 Este archivo contiene las configuraciones generales del proyecto.
 """
-
-
-
 """
 Configuraciones Stiff
 
@@ -14,9 +11,9 @@ x_range: int
 chem_data_path: str
     Ruta del archivo de datos químicos.
 """
-chem_data_path = "../input/Analisis_AFQ_Garzas-12_2024.xls"
-fixed_range = True
-x_range = 25
+chem_data_path = "../input/Analisis_AFQ_Garzas-12_2024.xlsx"
+fixed_range = False
+#x_range = 25
 
 #Plot style
 facecolor = '#fff419'  # HEX-> '#FF0000'

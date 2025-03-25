@@ -15,15 +15,16 @@ from setup.config import *
 from crear_shp import *
 
 
+
 if 'fixed_range' not in globals() or not isinstance(fixed_range, bool):
     raise ValueError("fixed_range config must be a boolean")
- 
+
+"""
 if fixed_range:
     if 'x_range' not in globals() or not isinstance(x_range, (int, float)) or x_range <= 0:
         raise ValueError("x_range config must be a positive number")
-
-total_x_range = x_range * 2
-
+""" 
+#total_x_range = x_range * 2
 datosQuimica = pd.read_excel(chem_data_path)
 
 print(datosQuimica.info())
@@ -46,8 +47,9 @@ for index, row in datosQuimica.iterrows():
 
     #apply some factor for the axis
     if not fixed_range:
-        #Incluir auto-escala
         total_x_range = max([Na_K, Ca, Mg, Cl, HCO3_CO3, SO4])*2
+    else:
+        total_x_range = round((datosQuimica.iloc[:,10:18]).to_numpy().max(),2)*2
 
     #set of points of the Stiff diagram
     #refactor this to a function
