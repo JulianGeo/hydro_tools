@@ -1,4 +1,5 @@
 from setup.config import *
+from variables import *
 
 def diagramaStiff(a, maxConNorm, index, has_labels=True):
     import numpy as np
@@ -64,3 +65,17 @@ def diagramaStiff(a, maxConNorm, index, has_labels=True):
     return fig
 
 
+def calculo_milieq(datosQuimica):
+    #datosQuimica.head()
+    datosQuimicaMeq = datosQuimica.copy()
+    for ion in iones.keys():
+        datosQuimicaMeq[str(ion)+'_meq'] = datosQuimica[ion]/iones[ion]
+    return datosQuimicaMeq
+
+def calculo_balance_ionico(datosQuimica):
+    datosQuimica.head()
+    datosQuimicaBal = datosQuimica.copy()
+    datosQuimicaBal['cationes'] = datosQuimica['Na_meq'] + datosQuimica['K_meq'] + datosQuimica['Ca_meq'] + datosQuimica['Mg_meq']
+    datosQuimicaBal['aniones'] = datosQuimica['Cl_meq'] + datosQuimica['HCO3_meq'] + datosQuimica['CO3_meq'] + datosQuimica['SO4_meq']
+    datosQuimicaBal['Balance'] = ((datosQuimicaBal['cationes']-datosQuimicaBal['aniones'])*100)/(datosQuimicaBal['cationes']+datosQuimicaBal['aniones'])
+    return datosQuimicaBal

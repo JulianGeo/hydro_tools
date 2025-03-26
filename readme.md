@@ -39,6 +39,7 @@ Once the images are generated, the results folder should be copied to the QGIS p
 ## Backlog
 - Revisar integración con Arcgis
 - Ojear el shape de poligono
+- Crear flujo para calcular y generar excel con nueva data química (miliquivalentes, hidrofacies, balance ionico)
 
 
 
