@@ -8,6 +8,7 @@ This is a temporary script file.
 import pandas as pd
 import numpy as np
 import re, os
+from re import match
 
 from funciones import *
 from variables import *
@@ -30,16 +31,19 @@ datosQuimica = pd.read_excel(chem_data_path)
 print(datosQuimica.info())
 print(datosQuimica.shape)
 
-
 datosQuimica['Estacion'] = datosQuimica['Estacion'].str.replace("/","_")
 datosQuimica['Estacion'] = datosQuimica['Estacion'].str.replace("–","-")
 datosQuimica['Estacion'] = datosQuimica['Estacion'].str.replace(" |%/s","")
 datosQuimica = datosQuimica.set_index(['Estacion'])
 
-
 for ion in iones.keys():
     datosQuimica[str(ion)+'_meq'] = datosQuimica[ion]/iones[ion]
 
+names = list(datosQuimica)
+meq = [] 
+for i, name in enumerate(names):
+    if match(".*_meq",name):
+        meq.append(i)
 
 for index, row in datosQuimica.iterrows():
     Na_K, Ca, Mg = row['Na_meq']+row['K_meq'], row['Ca_meq'], row['Mg_meq'] 
@@ -49,7 +53,7 @@ for index, row in datosQuimica.iterrows():
     if not fixed_range:
         total_x_range = max([Na_K, Ca, Mg, Cl, HCO3_CO3, SO4])*2
     else:
-        total_x_range = round((datosQuimica.iloc[:,10:18]).to_numpy().max(),2)*2
+        total_x_range = round((datosQuimica.iloc[:,meq[0]:meq[-1]]).to_numpy().max(),2)*2
 
     #set of points of the Stiff diagram
     #refactor this to a function
