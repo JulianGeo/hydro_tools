@@ -60,3 +60,12 @@ shape_config = {
     "east_name": "Este",
     "north_name": "Norte"
 }
+
+
+"""
+Configuraciones csv salida con nuevos datos
+- Balance ionico
+- Hidrofacies
+- Mili equivalentes
+"""
+chem_data_output_path='../results/Txt/Analisis_AFQ_chem.csv'
