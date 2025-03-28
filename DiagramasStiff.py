@@ -20,12 +20,6 @@ from crear_shp import *
 if 'fixed_range' not in globals() or not isinstance(fixed_range, bool):
     raise ValueError("fixed_range config must be a boolean")
 
-"""
-if fixed_range:
-    if 'x_range' not in globals() or not isinstance(x_range, (int, float)) or x_range <= 0:
-        raise ValueError("x_range config must be a positive number")
-""" 
-#total_x_range = x_range * 2
 datosQuimica = pd.read_excel(chem_data_path)
 
 print(datosQuimica.info())
@@ -38,14 +32,14 @@ datosQuimica = datosQuimica.set_index([sample_name])
 
 datosQuimicaMeq = calculo_milieq(datosQuimica)
 
-names = list(datosQuimica)
+names = list(datosQuimicaMeq)
 meq = [] 
 for i, name in enumerate(names):
     if match(".*_meq",name):
         meq.append(i)
 
 if fixed_range:
-    total_x_range = round((datosQuimica.iloc[:,meq[0]:meq[-1]]).to_numpy().max(),2)*2
+    total_x_range = round((datosQuimicaMeq.iloc[:,meq[0]:meq[-1]]).to_numpy().max(),2)*2
 
 
 for index, row in datosQuimicaMeq.iterrows():
@@ -58,7 +52,7 @@ for index, row in datosQuimicaMeq.iterrows():
 
     #set of points of the Stiff diagram
     #refactor this to a function
-    a = np.array([
+    ion_data = np.array([
         [0.5 + min(Cl/total_x_range, 0.5), 1],
         [0.5 + min(HCO3_CO3/total_x_range, 0.5), .5],
         [0.5 + min(SO4/total_x_range, 0.5), 0],
@@ -67,13 +61,14 @@ for index, row in datosQuimicaMeq.iterrows():
         [0.5 - min(Na_K/total_x_range, 0.5), 1]
         ])
     
-    figura_labels = diagramaStiff(a, total_x_range, index, True)
+    color = get_stiff_color(fixed_color, data_type, row)
+    figura_labels = diagramaStiff(ion_data, total_x_range, index, True, color)
     figura_labels.savefig('../results/Svg/'+str(index)+'.svg')
     figura_labels.savefig('../results/Png/'+str(index)+'.png',dpi=100)
     datosQuimicaMeq.loc[index, 'stiff_path'] = '/results/Svg/'+str(index)+'.svg'
     #figura.savefig('./Pdf/'+str(index)+'.pdf')
 
-    figura_no_labels = diagramaStiff(a, total_x_range, index, False)
+    figura_no_labels = diagramaStiff(ion_data, total_x_range, index, False, color)
     figura_no_labels.savefig('../results/Svg/'+str(index)+'_poligono.svg')
     figura_no_labels.savefig('../results/Png/'+str(index)+'_poligono.png',dpi=100)
     datosQuimicaMeq.loc[index, 'Stiff_pol_path'] = '/results/Svg/'+str(index)+'_poligono.svg'

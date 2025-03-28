@@ -1,25 +1,21 @@
 from setup.config import *
 from variables import *
-import pandas as pd
+from enums.enums import *
 
-def diagramaStiff(a, maxConNorm, index, has_labels=True):
-    import numpy as np
+def diagramaStiff(ion_data, maxConNorm, index, has_labels=True, color=facecolor):
     import matplotlib.pyplot as plt
-    import matplotlib
     from matplotlib.patches import Polygon
     from matplotlib.collections import PatchCollection
 
-
-    
     fig, ax = plt.subplots(figsize=(26,13))  # figsize=(14,7)# Modifiqué el tamaño de salida de la figura
     patches = []
 
-    polygon = Polygon(a, closed= True) 
+    polygon = Polygon(ion_data, closed= True) 
     patches.append(polygon)
 
     p = PatchCollection(
         patches, 
-        facecolor=facecolor, 
+        facecolor=color, 
         edgecolor=edgecolor, 
         alpha=alpha,
         linewidths=linewidths,
@@ -100,3 +96,52 @@ def clean_sample_names(df, sample_name='Estacion'):
     df[sample_name] = df[sample_name].str.replace(" |%/s", "", regex=True)  # Added regex=True for clarity
     df[sample_name] = df[sample_name].str.strip()
     return df
+
+def get_stiff_color(fixed_color, data_type, row):
+    """
+    Get the color for the Stiff diagram based on the fixed color and data type.
+
+    Args:
+        fixed_color (str): The fixed color for the Stiff diagram.
+        data_type (str): The type of data ('cationes' or 'aniones').
+        column_name (str): The name of the column to determine the color.
+
+    Returns:
+        str: The color for the Stiff diagram.
+    """
+    if fixed_color:
+        return facecolor
+    elif data_type == data_type_enum.TERMAL.value:
+        return get_stiff_thermal_colors(row)
+    else:
+        return facecolor 
+    
+
+def get_stiff_thermal_colors(row):
+    """
+    Get the color for the Stiff diagram based on the thermal data.
+
+    Args:
+        row (pd.Series): The row of data to determine the color.
+
+    Returns:
+        str: The color for the Stiff diagram.
+    """
+
+    if thermal_columns_enum.T.value not in row.index:
+        raise ValueError(f"Column '{thermal_columns_enum.T.value}' does not exist in the DataFrame.")
+    
+    if row[thermal_columns_enum.T.value] < 25:
+        return '#1831e8'  # Dark blue
+    elif row[thermal_columns_enum.T.value] < 35:
+        return '#18bfe8'  # Light blue
+    elif row[thermal_columns_enum.T.value] < 45:
+        return '#1be818'  # Light green 
+    elif row[thermal_columns_enum.T.value] < 55:
+        return '#fff419'  # Yellow
+    elif row[thermal_columns_enum.T.value] < 65:
+        return '#f89505'  # Orange
+    elif row[thermal_columns_enum.T.value] < 75:
+        return '#f83105'  # Red
+    else:
+        return '#f805de' # Purple
