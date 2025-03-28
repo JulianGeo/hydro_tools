@@ -17,6 +17,7 @@ chem_data_path: str
 chem_data_path = "../input/Analisis_AFQ.xlsx"
 fixed_range = True
 x_range = 25
+sample_name = 'Estacion'
 
 #Plot style
 facecolor = '#fff419'  # HEX-> '#FF0000'
