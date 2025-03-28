@@ -1,6 +1,7 @@
 """
 Este archivo contiene las configuraciones generales del proyecto.
 """
+from enums.enums import *
 """
 Configuraciones Stiff
 
@@ -11,11 +12,14 @@ x_range: int
 chem_data_path: str
     Ruta del archivo de datos químicos.
 """
-chem_data_path = "../input/Analisis_AFQ_Garzas-12_2024.xlsx"
+chem_data_path = "../input/Analisis_AFQ.xlsx"
 fixed_range = True
 sample_name = 'Estacion'
+data_type = data_type_enum.TERMAL.value
+
 
 #Plot style
+fixed_color = True
 facecolor = '#fff419'  # HEX-> '#FF0000'
 edgecolor = 'black'
 alpha = 1 #Transparencia 0-1
