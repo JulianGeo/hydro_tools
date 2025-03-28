@@ -8,6 +8,7 @@ This is a temporary script file.
 import pandas as pd
 import numpy as np
 import re, os
+from re import match
 
 from funciones import *
 from variables import *
@@ -15,20 +16,20 @@ from setup.config import *
 from crear_shp import *
 
 
+
 if 'fixed_range' not in globals() or not isinstance(fixed_range, bool):
     raise ValueError("fixed_range config must be a boolean")
- 
+
+"""
 if fixed_range:
     if 'x_range' not in globals() or not isinstance(x_range, (int, float)) or x_range <= 0:
         raise ValueError("x_range config must be a positive number")
-
-total_x_range = x_range * 2
-
+""" 
+#total_x_range = x_range * 2
 datosQuimica = pd.read_excel(chem_data_path)
 
 print(datosQuimica.info())
 print(datosQuimica.shape)
-
 
 datosQuimica['Estacion'] = datosQuimica['Estacion'].str.replace("/","_")
 datosQuimica['Estacion'] = datosQuimica['Estacion'].str.replace("–","-")
@@ -37,6 +38,16 @@ datosQuimica = datosQuimica.set_index(['Estacion'])
 
 
 datosQuimicaMeq = calculo_milieq(datosQuimica)
+
+names = list(datosQuimica)
+meq = [] 
+for i, name in enumerate(names):
+    if match(".*_meq",name):
+        meq.append(i)
+
+if fixed_range:
+    total_x_range = round((datosQuimica.iloc[:,meq[0]:meq[-1]]).to_numpy().max(),2)*2
+
 
 for index, row in datosQuimicaMeq.iterrows():
     Na_K, Ca, Mg = row['Na_meq']+row['K_meq'], row['Ca_meq'], row['Mg_meq'] 
