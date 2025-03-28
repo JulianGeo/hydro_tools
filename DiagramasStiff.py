@@ -31,10 +31,9 @@ datosQuimica = pd.read_excel(chem_data_path)
 print(datosQuimica.info())
 print(datosQuimica.shape)
 
-datosQuimica['Estacion'] = datosQuimica['Estacion'].str.replace("/","_")
-datosQuimica['Estacion'] = datosQuimica['Estacion'].str.replace("–","-")
-datosQuimica['Estacion'] = datosQuimica['Estacion'].str.replace(" |%/s","")
-datosQuimica = datosQuimica.set_index(['Estacion'])
+
+datosQuimica= clean_sample_names(datosQuimica, sample_name)
+datosQuimica = datosQuimica.set_index([sample_name])
 
 
 datosQuimicaMeq = calculo_milieq(datosQuimica)

@@ -1,5 +1,6 @@
 from setup.config import *
 from variables import *
+import pandas as pd
 
 def diagramaStiff(a, maxConNorm, index, has_labels=True):
     import numpy as np
@@ -79,3 +80,23 @@ def calculo_balance_ionico(datosQuimica):
     datosQuimicaBal['aniones'] = datosQuimica['Cl_meq'] + datosQuimica['HCO3_meq'] + datosQuimica['CO3_meq'] + datosQuimica['SO4_meq']
     datosQuimicaBal['Balance'] = ((datosQuimicaBal['cationes']-datosQuimicaBal['aniones'])*100)/(datosQuimicaBal['cationes']+datosQuimicaBal['aniones'])
     return datosQuimicaBal
+
+def clean_sample_names(df, sample_name='Estacion'):
+    """
+    Cleans the 'sample_name' column of a Pandas DataFrame by replacing
+    specific characters and setting it as the index.
+
+    Args:
+        df (pd.DataFrame): The input DataFrame containing a column named 'Estacion'.
+
+    Returns:
+        pd.DataFrame: The DataFrame with the cleaned 'sample_name' column as the index.
+    """
+    if sample_name not in df.columns:
+        raise ValueError(f"The DataFrame must contain a column named {sample_name}.")
+
+    df[sample_name] = df[sample_name].str.replace("/", "_")
+    df[sample_name] = df[sample_name].str.replace("–", "-")
+    df[sample_name] = df[sample_name].str.replace(" |%/s", "", regex=True)  # Added regex=True for clarity
+    df[sample_name] = df[sample_name].str.strip()
+    return df
