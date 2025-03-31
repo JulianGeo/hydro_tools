@@ -15,7 +15,7 @@ chem_data_path: str
 chem_data_path = "../input/Analisis_AFQ.xlsx"
 fixed_range = True
 sample_name = 'Estacion'
-data_type = data_type_enum.TERMAL.value
+data_type = data_type_enum.POZO.value
 
 
 #Plot style
